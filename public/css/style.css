@@ -1,0 +1,9 @@
+@import '../../node_modules/tailwindcss/base.css';
+@import '../../node_modules/tailwindcss/components.css';
+
+/* Additional styles */
+@import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/flatpickr.css';
+@import 'additional-styles/theme.css';
+
+@import '../../node_modules/tailwindcss/utilities.css';
