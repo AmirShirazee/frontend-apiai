@@ -1,15 +1,15 @@
-import NextAuth from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { JWT } from 'next-auth/jwt';
-import sanitize from 'mongo-sanitize';
-import bcrypt from 'bcryptjs';
-import { User, UserDocument } from '@/shared/models/user.model';
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { JWT } from "next-auth/jwt";
+import sanitize from "mongo-sanitize";
+import bcrypt from "bcryptjs";
+import { User, UserDocument } from "@/shared/models/user.model";
 import {
   validateAdvancedLoginInput,
   validateBasicLoginInput,
-} from '@/shared/models/validations/user.validation';
-import connectDB from '@/db/mongo';
+} from "@/shared/models/validations/user.validation";
+import connectDB from "@/db/mongo";
 
 export interface CustomJWT extends JWT {
   id?: string;
@@ -26,14 +26,14 @@ export interface CustomJWT extends JWT {
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      id: 'credentials',
-      name: 'Credentials',
+      id: "credentials",
+      name: "Credentials",
       credentials: {
-        username: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials: any): Promise<CustomJWT | null> {
-        // await connectDB();
+        await connectDB();
 
         try {
           const basicValidation = validateBasicLoginInput(credentials);
@@ -41,18 +41,25 @@ const handler = NextAuth({
             throw new Error(basicValidation.error.details[0].message);
           }
 
-          let sanitizedInput = sanitize<{ username: string; password: string }>(credentials);
+          let sanitizedInput = sanitize<{ username: string; password: string }>(
+            credentials
+          );
           sanitizedInput.username = credentials.username.toLowerCase();
 
-          const user: UserDocument | null = await getUserByUsername(sanitizedInput.username);
+          const user: UserDocument | null = await getUserByUsername(
+            sanitizedInput.username
+          );
 
           if (!user) {
-            throw new Error('Invalid username');
+            throw new Error("Invalid username");
           }
 
-          const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
+          const isPasswordMatch = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
           if (!isPasswordMatch) {
-            throw new Error('Invalid password');
+            throw new Error("Invalid password");
           }
 
           const advancedValidation = validateAdvancedLoginInput(sanitizedInput);
@@ -61,7 +68,9 @@ const handler = NextAuth({
           }
 
           if (!user.isVerified) {
-            throw new Error('Your account has not been verified. Please activate your account.');
+            throw new Error(
+              "Your account has not been verified. Please activate your account."
+            );
           }
 
           return {
@@ -74,17 +83,17 @@ const handler = NextAuth({
             id: user._id.toString(),
           };
         } catch (err: any) {
-          console.error('Error in authorize function:', err.message);
+          console.error("Error in authorize function:", err.message);
           throw new Error(err.message);
         }
       },
     }),
     GithubProvider({
-      clientId: process.env['GITHUB_ID'] ?? '',
-      clientSecret: process.env['GITHUB_SECRET'] ?? '',
+      clientId: process.env["GITHUB_ID"] ?? "",
+      clientSecret: process.env["GITHUB_SECRET"] ?? "",
     }),
   ],
-  secret: process.env['NEXTAUTH_SECRET'],
+  secret: process.env["NEXTAUTH_SECRET"],
   callbacks: {
     async jwt({ token, user, account, profile }) {
       const customToken = token as CustomJWT;
@@ -120,19 +129,21 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: '/signin',
+    signIn: "/signin",
   },
 });
 
 export { handler as GET, handler as POST };
 
-async function getUserByUsername(username: string): Promise<UserDocument | null> {
+async function getUserByUsername(
+  username: string
+): Promise<UserDocument | null> {
   try {
     // Query the database for a user with the given username
     return await User.findOne({ username: username.toLowerCase() }).exec();
   } catch (error) {
     // Handle any errors that occur during the query
-    console.error('Error fetching user by username:', error);
+    console.error("Error fetching user by username:", error);
     throw error; // Or handle this error as you see fit
   }
 }
