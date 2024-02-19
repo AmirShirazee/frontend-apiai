@@ -1,14 +1,22 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFileMetadata, setToast, setUploadProgress } from '@/redux/uploadSlice';
-import useAuthCheck from '@/utils/useAuth';
-import { FileState, MultiFileDropzone } from '@/app/components/multi-file-dropzone';
-import Toast03 from '@/app/components/toast-03';
-import LoadingButton from '@/app/components/LoadingButton';
-import updateUserNotificationsStatus from '@/utils/updateUserNotification';
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFileMetadata,
+  setToast,
+  setUploadProgress,
+} from "@/redux/uploadSlice";
+import useAuthCheck from "@/utils/useAuth";
+import {
+  FileState,
+  MultiFileDropzone,
+} from "@/app/components/multi-file-dropzone";
+import Toast03 from "@/app/components/toast-03";
+import LoadingButton from "@/app/components/LoadingButton";
+import updateUserNotificationsStatus from "@/utils/updateUserNotification";
+import { backendHost } from "@/utils/backendHost";
 
 const FileUploadComponent: React.FC = () => {
   const isLoadingAuth = useAuthCheck();
@@ -21,7 +29,7 @@ const FileUploadComponent: React.FC = () => {
   const uploadState = useSelector((state: any) => state.upload);
 
   useEffect(() => {
-    if (status === 'authenticated' && session?.user?.id) {
+    if (status === "authenticated" && session?.user?.id) {
       setUserId(session.user.id);
     }
   }, [session, status]);
@@ -30,7 +38,7 @@ const FileUploadComponent: React.FC = () => {
     dispatch(setToast(newState));
   };
 
-  function updateFileProgress(key: string, progress: FileState['progress']) {
+  function updateFileProgress(key: string, progress: FileState["progress"]) {
     setFileStates((fileStates) => {
       const newFileStates = structuredClone(fileStates);
       const fileState = newFileStates.find((fs) => fs.key === key);
@@ -50,8 +58,11 @@ const FileUploadComponent: React.FC = () => {
     setIsUploading(true);
 
     for (const fileState of fileStates) {
-      if (fileState.progress !== 'UPLOADING' && fileState.progress !== 'COMPLETE') {
-        updateFileProgress(fileState.key, 'UPLOADING');
+      if (
+        fileState.progress !== "UPLOADING" &&
+        fileState.progress !== "COMPLETE"
+      ) {
+        updateFileProgress(fileState.key, "UPLOADING");
         await handleFileUpload(fileState);
       }
     }
@@ -64,26 +75,29 @@ const FileUploadComponent: React.FC = () => {
     dispatch(
       setToast({
         open: true,
-        type: 'success',
-        message: 'File uploaded successfully! You will be redirected shortly. Please wait...',
-      }),
+        type: "success",
+        message:
+          "File uploaded successfully! You will be redirected shortly. Please wait...",
+      })
     );
   };
   async function handleFileUpload(fileState: FileState) {
     if (!userId) {
-      console.error('User ID is not set. Cannot proceed with file upload.');
+      console.error("User ID is not set. Cannot proceed with file upload.");
       return;
     }
-    updateFileProgress(fileState.key, 'PENDING');
+    updateFileProgress(fileState.key, "PENDING");
 
     const formData = new FormData();
-    formData.append('file', fileState.file);
+    formData.append("file", fileState.file);
 
-    dispatch(setFileMetadata({ name: fileState.file.name, size: fileState.file.size }));
+    dispatch(
+      setFileMetadata({ name: fileState.file.name, size: fileState.file.size })
+    );
 
     try {
-      const response = await fetch(`http://localhost:1000/api/upload/${userId}`, {
-        method: 'POST',
+      const response = await fetch(`${backendHost}/api/upload/${userId}`, {
+        method: "POST",
         body: formData,
       });
 
@@ -94,25 +108,29 @@ const FileUploadComponent: React.FC = () => {
         await updateUserNotificationsStatus(userId, true);
 
         showSuccessToast();
-        setFileStates((currentFiles) => currentFiles.filter((fs) => fs.key !== fileState.key));
-        updateFileProgress(fileState.key, 'COMPLETE');
+        setFileStates((currentFiles) =>
+          currentFiles.filter((fs) => fs.key !== fileState.key)
+        );
+        updateFileProgress(fileState.key, "COMPLETE");
         setTimeout(() => {
-          window.location.href = '/dashboard/tests/view';
+          window.location.href = "/dashboard/tests/view";
         }, 3000);
       } else {
         await response.text();
         dispatch(
           setToast({
             open: true,
-            type: 'error',
-            message: 'File upload failed.',
-          }),
+            type: "error",
+            message: "File upload failed.",
+          })
         );
-        updateFileProgress(fileState.key, 'ERROR');
+        updateFileProgress(fileState.key, "ERROR");
       }
     } catch (error) {
-      dispatch(setToast({ open: true, type: 'error', message: 'File upload failed.' }));
-      updateFileProgress(fileState.key, 'ERROR');
+      dispatch(
+        setToast({ open: true, type: "error", message: "File upload failed." })
+      );
+      updateFileProgress(fileState.key, "ERROR");
     }
   }
 
@@ -121,18 +139,20 @@ const FileUploadComponent: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto text-center pb-12">
-      <div className="toast-container fixed top-16 right-0 z-50">
+    <div className='max-w-3xl mx-auto text-center pb-12'>
+      <div className='toast-container fixed top-16 right-0 z-50'>
         <Toast03
           open={uploadState.toast.open}
-          setOpen={() => updateToastState({ ...uploadState.toast, open: false })}
+          setOpen={() =>
+            updateToastState({ ...uploadState.toast, open: false })
+          }
           type={uploadState.toast.type}
         >
           {uploadState.toast.message}
         </Toast03>
       </div>
-      <div className="flex flex-col justify-center items-center h-screen">
-        <div className="flex flex-col items-center justify-center space-y-4">
+      <div className='flex flex-col justify-center items-center h-screen'>
+        <div className='flex flex-col items-center justify-center space-y-4'>
           <MultiFileDropzone
             value={fileStates}
             onChange={(files) => {
@@ -144,8 +164,8 @@ const FileUploadComponent: React.FC = () => {
           />
           <LoadingButton
             onClick={handleUploadClick}
-            initialText="Upload file"
-            loadingText="Processing"
+            initialText='Upload file'
+            loadingText='Processing'
           />
         </div>
       </div>

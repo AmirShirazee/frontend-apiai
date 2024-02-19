@@ -1,10 +1,9 @@
+import { backendHost } from "@/utils/backendHost";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 // Type definitions
 type ToastType = "warning" | "error" | "success" | "";
-
-const backendHost = process.env.BACKEND_HOST;
 
 interface ToastPayload {
   open: boolean;
@@ -46,19 +45,28 @@ export const uploadApi = createApi({
   reducerPath: "upload",
   endpoints: (builder) => ({
     getUploads: builder.query({
-      query: (userId) => ({
+      query: ({ userId, token }) => ({
         url: userId,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
     getUpload: builder.query({
-      query: ({ userId, uploadId }) => ({
+      query: ({ userId, uploadId, token }) => ({
         url: `/${userId}/${uploadId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
     deleteUpload: builder.mutation({
-      query: (userId: string) => ({
+      query: ({ userId, token }) => ({
         url: userId,
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),
