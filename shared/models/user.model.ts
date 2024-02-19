@@ -1,11 +1,11 @@
-import mongoose, { Document, model, Model, Schema } from 'mongoose';
-import { omit } from 'ramda';
-import bcrypt from 'bcryptjs';
+import mongoose, { Document, model, Model, Schema } from "mongoose";
+import { omit } from "ramda";
+import bcrypt from "bcryptjs";
 
 export interface UserModel extends Model<UserDocument> {
   findByToken(
     tokenObject: { token: string },
-    callback: (err: Error | null, user: UserModel | false) => void,
+    callback: (err: Error | null, user: UserModel | false) => void
   ): void;
 }
 
@@ -73,7 +73,7 @@ const userSchema = new Schema<UserDocument>({
     minlength: 5,
     maxlength: 1024,
   },
-  passwordResetToken: { type: String, default: '' },
+  passwordResetToken: { type: String, default: "" },
   passwordResetExpires: { type: Date, default: null },
   isVerified: {
     type: Boolean,
@@ -130,12 +130,12 @@ userSchema.methods.hashPassword = async function () {
   return new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err1, salt) => {
       if (err1) {
-        reject(new Error('Failed to generate salt.'));
+        reject(new Error("Failed to generate salt."));
         return;
       }
       bcrypt.hash(this.password, salt, (err2, hash) => {
         if (err2) {
-          reject(new Error('Failed to hash password.'));
+          reject(new Error("Failed to hash password."));
           return;
         }
         this.password = hash;
@@ -146,17 +146,18 @@ userSchema.methods.hashPassword = async function () {
 };
 
 userSchema.methods.sanitizeUser = function () {
-  return omit(['password', '__v', '_id'], this.toObject({ virtuals: true }));
+  return omit(["password", "__v", "_id"], this.toObject({ virtuals: true }));
 };
 
 userSchema.statics.findByToken = function (
   tokenObject: { token: string },
-  callback: (err: Error | null, user?: UserDocument | null) => void,
+  callback: (err: Error | null, user?: UserDocument | null) => void
 ) {
   return this.findOne({ token: tokenObject.token }, callback);
 };
 
 export const User: UserModel =
-  (mongoose.models.User as UserModel) || model<UserDocument, UserModel>('User', userSchema);
+  (mongoose.models.User as UserModel) ||
+  model<UserDocument, UserModel>("User", userSchema);
 
 export default User;

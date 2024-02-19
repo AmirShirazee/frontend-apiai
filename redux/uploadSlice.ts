@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 // Type definitions
-type ToastType = 'warning' | 'error' | 'success' | '';
+type ToastType = "warning" | "error" | "success" | "";
 
-const backendHost = 'http://localhost:1000/api/upload/';
+const backendHost = process.env.BACKEND_HOST;
 
 interface ToastPayload {
   open: boolean;
@@ -35,15 +35,15 @@ const initialState: FileUploadState = {
   isFileViewed: false,
   toast: {
     open: false,
-    type: '',
-    message: '',
+    type: "",
+    message: "",
   },
 };
 
 export const uploadApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: backendHost }),
-  tagTypes: ['Upload'],
-  reducerPath: 'upload',
+  tagTypes: ["Upload"],
+  reducerPath: "upload",
   endpoints: (builder) => ({
     getUploads: builder.query({
       query: (userId) => ({
@@ -58,14 +58,14 @@ export const uploadApi = createApi({
     deleteUpload: builder.mutation({
       query: (userId: string) => ({
         url: userId,
-        method: 'DELETE',
+        method: "DELETE",
       }),
     }),
   }),
 });
 
 export const uploadSlice = createSlice({
-  name: 'upload',
+  name: "upload",
   initialState,
   reducers: {
     setFileMetadata: (state, action: PayloadAction<FileMetadata | null>) => {
@@ -87,6 +87,10 @@ export const uploadSlice = createSlice({
 export const { setFileMetadata, setUploadProgress, setIsFileViewed, setToast } =
   uploadSlice.actions;
 
-export const { useGetUploadsQuery, useGetUploadQuery, useDeleteUploadMutation } = uploadApi;
+export const {
+  useGetUploadsQuery,
+  useGetUploadQuery,
+  useDeleteUploadMutation,
+} = uploadApi;
 
 export default uploadSlice.reducer;
