@@ -17,6 +17,7 @@ import Toast03 from "@/app/components/toast-03";
 import LoadingButton from "@/app/components/LoadingButton";
 import updateUserNotificationsStatus from "@/utils/updateUserNotification";
 import { backendHost } from "@/utils/backendHost";
+import { useAllData } from "@/utils/useAllData";
 
 const FileUploadComponent: React.FC = () => {
   const isLoadingAuth = useAuthCheck();
@@ -27,6 +28,9 @@ const FileUploadComponent: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const uploadState = useSelector((state: any) => state.upload);
+  const { token } = useAllData();
+
+  console.log(token);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.id) {
@@ -88,7 +92,7 @@ const FileUploadComponent: React.FC = () => {
       return;
     }
     if (!session?.user.token) {
-      console.error("No token found. Authenticatiosn may be required.");
+      console.error("No token found. Authentication may be required.");
       return;
     }
 
@@ -106,7 +110,7 @@ const FileUploadComponent: React.FC = () => {
         method: "POST",
         body: formData,
         headers: {
-          Authorization: `Bearer ${session.user.token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
