@@ -18,6 +18,7 @@ import LoadingButton from "@/app/components/LoadingButton";
 import updateUserNotificationsStatus from "@/utils/updateUserNotification";
 import { backendHost } from "@/utils/backendHost";
 import { useAllData } from "@/utils/useAllData";
+import useUserData from "@/utils/useUserData";
 
 const FileUploadComponent: React.FC = () => {
   const isLoadingAuth = useAuthCheck();
@@ -28,6 +29,7 @@ const FileUploadComponent: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const uploadState = useSelector((state: any) => state.upload);
+  const { allData } = useUserData(session!, status);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.id) {
@@ -88,7 +90,7 @@ const FileUploadComponent: React.FC = () => {
       console.error("User ID is not set. Cannot proceed with file upload.");
       return;
     }
-    if (!session?.user.token) {
+    if (!allData.token) {
       console.error("No token found. Authentication may be required.");
       return;
     }
@@ -109,7 +111,7 @@ const FileUploadComponent: React.FC = () => {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Bearer ${session.user.token}`,
+            Authorization: `Bearer ${allData.token}`,
           },
         }
       );
