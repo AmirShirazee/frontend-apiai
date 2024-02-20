@@ -81,11 +81,17 @@ const FileUploadComponent: React.FC = () => {
       })
     );
   };
+
   async function handleFileUpload(fileState: FileState) {
     if (!userId) {
       console.error("User ID is not set. Cannot proceed with file upload.");
       return;
     }
+    if (!session?.user.token) {
+      console.error("No token found. Authenticatiosn may be required.");
+      return;
+    }
+
     updateFileProgress(fileState.key, "PENDING");
 
     const formData = new FormData();
@@ -99,6 +105,9 @@ const FileUploadComponent: React.FC = () => {
       const response = await fetch(`${backendHost}/api/upload/${userId}`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${session.user.token}`,
+        },
       });
 
       if (response.ok) {
@@ -116,19 +125,24 @@ const FileUploadComponent: React.FC = () => {
           window.location.href = "/dashboard/tests/view";
         }, 3000);
       } else {
-        await response.text();
+        const errorMessage = await response.text();
         dispatch(
           setToast({
             open: true,
             type: "error",
-            message: "File upload failed.",
+            message: `File upload failed: ${errorMessage}`,
           })
         );
         updateFileProgress(fileState.key, "ERROR");
       }
     } catch (error) {
+      console.error("File upload error:", error);
       dispatch(
-        setToast({ open: true, type: "error", message: "File upload failed." })
+        setToast({
+          open: true,
+          type: "error",
+          message: "File upload failed due to a network error.",
+        })
       );
       updateFileProgress(fileState.key, "ERROR");
     }
