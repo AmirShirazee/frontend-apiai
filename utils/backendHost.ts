@@ -1,1 +1,1 @@
-export const backendHost = process.env.BACKEND_HOST;
+export const backendHost = "https://api.testopenapi.com";
