@@ -28,9 +28,6 @@ const FileUploadComponent: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const uploadState = useSelector((state: any) => state.upload);
-  const { token } = useAllData();
-
-  console.log(token);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.id) {
@@ -112,7 +109,7 @@ const FileUploadComponent: React.FC = () => {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${session.user.token}`,
           },
         }
       );
