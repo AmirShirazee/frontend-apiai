@@ -106,13 +106,16 @@ const FileUploadComponent: React.FC = () => {
     );
 
     try {
-      const response = await fetch(`${backendHost}/api/upload/${userId}`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${backendHost}/backend/api/upload/${userId}`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         await response.json();
