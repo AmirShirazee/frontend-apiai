@@ -1,16 +1,15 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
+import { useState } from "react";
 
 export default function AccordionBasic({
   children,
   title,
 }: {
-  children: React.ReactNode
-  title: string
+  children: React.ReactNode;
+  title: string;
 }) {
-
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div className="px-5 py-4 rounded-sm dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
@@ -19,14 +18,21 @@ export default function AccordionBasic({
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
-        <div className="text-sm text-slate-800 dark:text-slate-100 font-medium">{title}</div>
-        <svg className={`w-8 h-8 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 ml-3 ${open && 'rotate-180'}`} viewBox="0 0 32 32">
+        <div className="text-sm text-slate-800 dark:text-slate-100 font-medium">
+          {title}
+        </div>
+        <svg
+          className={`w-8 h-8 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 ml-3 ${open && "rotate-180"}`}
+          viewBox="0 0 32 32"
+        >
           <path d="M16 20l-5.4-5.4 1.4-1.4 4 4 4-4 1.4 1.4z" />
         </svg>
       </button>
-      <div className={`text-sm ${!open && 'hidden'}`}>
-        {children}
+      <div
+        className={`text-sm transition-all duration-500 ease-in-out ${!open ? "opacity-0 max-h-0" : "opacity-100 max-h-full"}`}
+      >
+        <p className="m-0 p-0">{children}</p>
       </div>
     </div>
-  )
+  );
 }

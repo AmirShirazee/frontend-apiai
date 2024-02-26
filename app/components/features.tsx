@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import Image from 'next/image';
-import { Transition } from '@headlessui/react';
-import Particles from './particles';
-import Illustration from '../../public/images/glow-top.svg';
+import Image from "next/image";
+import { Transition } from "@headlessui/react";
+import Particles from "./particles";
+import Illustration from "../../public/images/glow-top.svg";
 
 export default function Features() {
   const [tab, setTab] = useState<number>(1);
   const [paragraphText, setParagraphText] = useState(
-    'Automatically generate tests with just one click. Ideal for continuous integration and reducing manual labor.',
+    "Automatically generate tests with just one click. Ideal for continuous integration and reducing manual labor.",
   );
 
   const handleClick = (tabNumber: number, newText: string) => {
@@ -60,13 +60,13 @@ export default function Features() {
                   <button
                     className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${
                       tab !== 1
-                        ? 'border-slate-700 opacity-50'
-                        : 'border-purple-700 shadow shadow-purple-500/25'
+                        ? "border-slate-700 opacity-50"
+                        : "border-purple-700 shadow shadow-purple-500/25"
                     }`}
                     onClick={() =>
                       handleClick(
                         1,
-                        'Automatically generate tests with just one click. Ideal for continuous integration and reducing manual labor.',
+                        "Automatically generate tests with just one click. Ideal for continuous integration and reducing manual labor.",
                       )
                     }
                   >
@@ -80,16 +80,20 @@ export default function Features() {
                     </svg>
                     <span>One-Click Test Creation.</span>
                   </button>
+                  <br></br>
+                  <div className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200 mb-2">
+                    Features in progress
+                  </div>
                   <button
                     className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${
                       tab !== 2
-                        ? 'border-slate-700 opacity-50'
-                        : 'border-purple-700 shadow shadow-purple-500/25'
+                        ? "border-slate-700 opacity-50"
+                        : "border-purple-700 shadow shadow-purple-500/25"
                     }`}
                     onClick={() =>
                       handleClick(
                         2,
-                        'Get instant, actionable insights into your code quality and performance. Make data-driven improvements.',
+                        "Get instant, actionable insights into your code quality and performance. Make data-driven improvements.",
                       )
                     }
                   >
@@ -106,13 +110,13 @@ export default function Features() {
                   <button
                     className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${
                       tab !== 3
-                        ? 'border-slate-700 opacity-50'
-                        : 'border-purple-700 shadow shadow-purple-500/25'
+                        ? "border-slate-700 opacity-50"
+                        : "border-purple-700 shadow shadow-purple-500/25"
                     }`}
                     onClick={() =>
                       handleClick(
                         3,
-                        'Seamlessly integrate with various platforms and tools. Effortless setup and compatibility.',
+                        "Seamlessly integrate with various platforms and tools. Effortless setup and compatibility.",
                       )
                     }
                   >
@@ -130,10 +134,18 @@ export default function Features() {
               </div>
 
               {/* Image */}
-              <div className="md:w-5/12 lg:w-1/2" data-aos="fade-up" data-aos-delay="100">
+              <div
+                className="md:w-5/12 lg:w-1/2"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
                 <div className="relative py-24 -mt-12">
                   {/* Particles animation */}
-                  <Particles className="absolute inset-0 -z-10" quantity={8} staticity={30} />
+                  <Particles
+                    className="absolute inset-0 -z-10"
+                    quantity={8}
+                    staticity={30}
+                  />
 
                   <div className="flex items-center justify-center">
                     <div className="relative w-48 h-48 flex justify-center items-center">
@@ -146,7 +158,13 @@ export default function Features() {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <defs>
-                          <linearGradient id="pulse-a" x1="50%" x2="50%" y1="100%" y2="0%">
+                          <linearGradient
+                            id="pulse-a"
+                            x1="50%"
+                            x2="50%"
+                            y1="100%"
+                            y2="0%"
+                          >
                             <stop offset="0%" stopColor="#A855F7" />
                             <stop offset="76.382%" stopColor="#FAF5FF" />
                             <stop offset="100%" stopColor="#6366F1" />

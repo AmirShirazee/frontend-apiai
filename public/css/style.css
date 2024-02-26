@@ -7,3 +7,8 @@
 @import 'additional-styles/theme.css';
 
 @import '../../node_modules/tailwindcss/utilities.css';
+
+/* See Alpine.js: https://github.com/alpinejs/alpine#x-cloak */
+[x-cloak=""] {
+    display: none;
+}

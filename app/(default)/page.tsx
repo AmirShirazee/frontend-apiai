@@ -1,10 +1,10 @@
-import Features04 from '@/app/components/features-04';
-import Hero from '@/app/components/hero';
-import Features from '@/app/components/features';
+import Features04 from "@/app/components/features-04";
+import Hero from "@/app/components/hero";
+import Features from "@/app/components/features";
 
 export const metadata = {
-  title: 'Home - ApiAi',
-  description: 'Automated Integration Testing for APIs',
+  title: "Home - ApiAi",
+  description: "Automated Integration Testing for APIs",
 };
 
 export default function Home() {

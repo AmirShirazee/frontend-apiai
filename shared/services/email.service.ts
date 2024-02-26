@@ -32,7 +32,7 @@ const emailTemplate = (content: string) => `
 // Specific email content builders
 export const createResetPasswordEmail = (
   receiverEmail: string,
-  resetTokenValue: string
+  resetTokenValue: string,
 ): sgMail.MailDataRequired => {
   const content = `
     <p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>
@@ -49,7 +49,7 @@ export const createResetPasswordEmail = (
 };
 
 export const createResetConfirmationEmail = (
-  receiverEmail: string
+  receiverEmail: string,
 ): sgMail.MailDataRequired => {
   const content = `
     <p>This is a confirmation that the password for your account <strong>${receiverEmail}</strong> has just been changed.</p>
@@ -63,9 +63,36 @@ export const createResetConfirmationEmail = (
   };
 };
 
+const createHelpCenterInquiryEmail = (
+  receiverEmail: string,
+  formData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    subject: string;
+    message: string;
+  },
+): sgMail.MailDataRequired => {
+  const { firstName, lastName, email, subject, message } = formData;
+  const content = `
+    <p>A new help center inquiry has been received:</p>
+    <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Subject:</strong> ${subject}</p>
+    <p><strong>Message:</strong></p>
+    <p>${message}</p>
+  `;
+  return {
+    to: receiverEmail,
+    from: sendingEmail,
+    subject: "New Help Center Inquiry",
+    html: emailTemplate(content),
+  };
+};
+
 export const createVerificationEmail = (
   receiverEmail: string,
-  verificationTokenValue: string
+  verificationTokenValue: string,
 ): sgMail.MailDataRequired => {
   const content = `<p>Please verify your account by clicking the link:
   <a href="${protocol}://${host}/confirm/${verificationTokenValue}" style="color: #007bff;">Verify Email</a></p>`;
@@ -86,6 +113,7 @@ const emailServices = {
   createResetConfirmationEmail,
   createVerificationEmail,
   sendEmail,
+  createHelpCenterInquiryEmail,
 };
 
 export default emailServices;
