@@ -5,17 +5,17 @@ const faqs = [
   {
     title: "How do I use TestOpenAPI?",
     content:
-      "You can use TestOpenAPI by signing up on our website and following the instructions provided to make API calls.",
+      "You can use TestOpenAPI by signing up on our website and uploading a OpenAPI specification. You will receive within seconds a set of Jest tests that you can use to test your API endpoints.",
   },
   {
     title: "Is TestOpenAPI free to use?",
     content:
-      "We offer a free tier with limited requests per month, and paid subscriptions for more extensive use.",
+      "Currently TestOpenAPI is in beta and is free to use. We may introduce a pricing model in the future, but we will always offer a free tier for small projects and open-source initiatives.",
   },
   {
     title: "What is the purpose of this application?",
     content:
-      "Our application automates the process of generating Jest tests from your OpenAPI specification, ensuring that your API endpoints are tested efficiently and effectively according to your defined parameters and responses.",
+      "Our application automates the process of generating Jest tests from your OpenAPI specification, ensuring that your API endpoints are tested efficiently and effectively according to your defined parameters and responses. This helps you to maintain the quality and reliability of your API.",
   },
   {
     title: "How do I provide my OpenAPI specification to the application?",
@@ -30,7 +30,7 @@ const faqs = [
   {
     title: "Can I customize the generated Jest tests?",
     content:
-      "Yes, you can. Once tests are generated, you can review and amend them as necessary to suit your specific testing requirements.",
+      "Yes, you can. Once tests are generated, you can review and amend them as necessary to suit your specific testing requirements. This can be done directly within the browser, as we provide a code editor for you to make changes.",
   },
   {
     title: "How are parameters and responses handled in the generated tests?",
@@ -51,7 +51,7 @@ const faqs = [
   {
     title: "What happens if my OpenAPI specification changes?",
     content:
-      "You should regenerate your tests to match the updated OpenAPI specification. This ensures that the tests remain consistent with your API's current functionality.",
+      "You should regenerate your tests to match the updated OpenAPI specification. This ensures that the tests remain consistent with your API's current functionality. We recommend regenerating tests whenever your API changes. We are currently working on a feature to automate this process, by directly integrating with your CI/CD pipeline.",
   },
   {
     title: "Is there a limit to the size of the OpenAPI specification?",
