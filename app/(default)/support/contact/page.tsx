@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Toast03 from "@/app/components/toast-03";
+import { ToastType } from "@/shared/types/toast";
 
 type FormDataState = {
   firstName: string;
@@ -28,6 +30,17 @@ const HelpCenter = () => {
     message: "",
   });
   const [errors, setErrors] = useState<ErrorState>({});
+  // Added state for toast notifications
+  const [toast, setToast] = useState<{
+    open: boolean;
+    type: ToastType;
+    message: string;
+  }>({
+    open: false,
+    type: "",
+    message: "",
+  });
+
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);
 
   const validateForm = () => {
@@ -91,8 +104,8 @@ const HelpCenter = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert(result.message);
-        // Reset form and errors if successful
+        setToast({ open: true, type: "success", message: result.message });
+
         setFormData({
           firstName: "",
           lastName: "",
@@ -103,11 +116,14 @@ const HelpCenter = () => {
         setIsTermsAgreed(false);
         setErrors({});
       } else {
-        alert(result.message); // or handle error messages from server
+        setToast({ open: true, type: "error", message: result.message });
       }
     } catch (error) {
-      console.error("An error occurred:", error);
-      alert("An error occurred while sending your inquiry.");
+      setToast({
+        open: true,
+        type: "error",
+        message: "An error occurred while sending your inquiry.",
+      });
     }
   };
   return (
@@ -294,6 +310,14 @@ const HelpCenter = () => {
                   </button>
                 </div>
               </div>
+              <br></br>
+              <Toast03
+                open={toast.open}
+                setOpen={(open) => setToast({ ...toast, open })}
+                type={toast.type}
+              >
+                {toast.message}
+              </Toast03>
             </form>
           </div>
         </div>
