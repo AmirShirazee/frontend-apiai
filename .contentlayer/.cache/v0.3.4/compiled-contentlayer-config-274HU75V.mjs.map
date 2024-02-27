@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../contentlayer.config.js"],
-  "sourcesContent": ["import { defineDocumentType, makeSource } from \"contentlayer/source-files\";\n\nconst Help = defineDocumentType(() => ({\n  name: \"Help\",\n  filePathPattern: `support/help/**/*.mdx`,\n  contentType: \"mdx\",\n  fields: {\n    title: {\n      type: \"string\",\n      required: true,\n    },\n    updatedAt: {\n      type: \"date\",\n      required: true,\n    },\n    summary: {\n      type: \"string\",\n      required: true,\n    },\n  },\n  computedFields: {\n    slug: {\n      type: \"string\",\n      resolve: (doc) => doc._raw.flattenedPath.replace(/support\\/help\\/?/, \"\"),\n    },\n  },\n}));\n\nexport default makeSource({\n  contentDirPath: \"content\",\n  documentTypes: [Help],\n});\n"],
-  "mappings": ";AAAA,SAAS,oBAAoB,kBAAkB;AAE/C,IAAM,OAAO,mBAAmB,OAAO;AAAA,EACrC,MAAM;AAAA,EACN,iBAAiB;AAAA,EACjB,aAAa;AAAA,EACb,QAAQ;AAAA,IACN,OAAO;AAAA,MACL,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,IACA,WAAW;AAAA,MACT,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,IACA,SAAS;AAAA,MACP,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,EACF;AAAA,EACA,gBAAgB;AAAA,IACd,MAAM;AAAA,MACJ,MAAM;AAAA,MACN,SAAS,CAAC,QAAQ,IAAI,KAAK,cAAc,QAAQ,oBAAoB,EAAE;AAAA,IACzE;AAAA,EACF;AACF,EAAE;AAEF,IAAO,8BAAQ,WAAW;AAAA,EACxB,gBAAgB;AAAA,EAChB,eAAe,CAAC,IAAI;AACtB,CAAC;",
-  "names": []
-}
