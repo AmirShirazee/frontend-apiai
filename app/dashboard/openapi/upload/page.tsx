@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +17,6 @@ import Toast03 from "@/app/components/toast-03";
 import LoadingButton from "@/app/components/LoadingButton";
 import updateUserNotificationsStatus from "@/utils/updateUserNotification";
 import { backendHost } from "@/utils/backendHost";
-import { useAllData } from "@/utils/useAllData";
 import useUserData from "@/utils/useUserData";
 
 const FileUploadComponent: React.FC = () => {
@@ -30,6 +29,7 @@ const FileUploadComponent: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const uploadState = useSelector((state: any) => state.upload);
   const { allData } = useUserData(session!, status);
+  const fileInputRef = useRef<HTMLInputElement>(null); // Step 2: useRef hook
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.id) {
@@ -39,6 +39,29 @@ const FileUploadComponent: React.FC = () => {
 
   const updateToastState = (newState: typeof uploadState.toast) => {
     dispatch(setToast(newState));
+  };
+
+  const handleFileInputClick = () => {
+    fileInputRef.current?.click(); // Programmatically click the hidden file input
+  };
+
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files).map((file) => {
+        // Ensure progress is set to one of the allowed values for FileState
+        const progress: "PENDING" | "UPLOADING" | "COMPLETE" | "ERROR" =
+          "PENDING"; // Example, assuming these are the allowed values
+        return {
+          file,
+          key: `${file.name}-${file.size}`,
+          progress, // Correctly typed according to FileState
+        };
+      });
+      setFileStates((currentFiles) => [...currentFiles, ...fileArray]);
+    }
   };
 
   function updateFileProgress(key: string, progress: FileState["progress"]) {
@@ -81,7 +104,7 @@ const FileUploadComponent: React.FC = () => {
         type: "success",
         message:
           "File uploaded successfully! You will be redirected shortly. Please wait...",
-      })
+      }),
     );
   };
 
@@ -101,7 +124,7 @@ const FileUploadComponent: React.FC = () => {
     formData.append("file", fileState.file);
 
     dispatch(
-      setFileMetadata({ name: fileState.file.name, size: fileState.file.size })
+      setFileMetadata({ name: fileState.file.name, size: fileState.file.size }),
     );
 
     try {
@@ -113,7 +136,7 @@ const FileUploadComponent: React.FC = () => {
           headers: {
             Authorization: `Bearer ${allData.token}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -124,7 +147,7 @@ const FileUploadComponent: React.FC = () => {
 
         showSuccessToast();
         setFileStates((currentFiles) =>
-          currentFiles.filter((fs) => fs.key !== fileState.key)
+          currentFiles.filter((fs) => fs.key !== fileState.key),
         );
         updateFileProgress(fileState.key, "COMPLETE");
         setTimeout(() => {
@@ -137,7 +160,7 @@ const FileUploadComponent: React.FC = () => {
             open: true,
             type: "error",
             message: `File upload failed: ${errorMessage}`,
-          })
+          }),
         );
         updateFileProgress(fileState.key, "ERROR");
       }
@@ -148,7 +171,7 @@ const FileUploadComponent: React.FC = () => {
           open: true,
           type: "error",
           message: "File upload failed due to a network error.",
-        })
+        }),
       );
       updateFileProgress(fileState.key, "ERROR");
     }
@@ -159,8 +182,8 @@ const FileUploadComponent: React.FC = () => {
   }
 
   return (
-    <div className='max-w-3xl mx-auto text-center pb-12'>
-      <div className='toast-container fixed top-16 right-0 z-50'>
+    <div className="max-w-3xl mx-auto text-center pb-12">
+      <div className="toast-container fixed top-16 right-0 z-50">
         <Toast03
           open={uploadState.toast.open}
           setOpen={() =>
@@ -171,8 +194,8 @@ const FileUploadComponent: React.FC = () => {
           {uploadState.toast.message}
         </Toast03>
       </div>
-      <div className='flex flex-col justify-center items-center h-screen'>
-        <div className='flex flex-col items-center justify-center space-y-4'>
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="flex flex-col items-center justify-center space-y-4">
           <MultiFileDropzone
             value={fileStates}
             onChange={(files) => {
@@ -182,10 +205,19 @@ const FileUploadComponent: React.FC = () => {
               setFileStates((currentFiles) => [...currentFiles, ...addedFiles]);
             }}
           />
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileInputChange}
+            multiple // Remove this if only single file upload is allowed
+          />
           <LoadingButton
-            onClick={handleUploadClick}
-            initialText='Upload file'
-            loadingText='Processing'
+            onClick={
+              fileStates.length > 0 ? handleUploadClick : handleFileInputClick
+            }
+            initialText="Upload file"
+            loadingText="Processing"
           />
         </div>
       </div>
