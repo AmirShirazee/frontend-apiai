@@ -42,7 +42,7 @@ const FileUploadComponent: React.FC = () => {
   };
 
   const handleFileInputClick = () => {
-    fileInputRef.current?.click(); // Programmatically click the hidden file input
+    fileInputRef.current?.click();
   };
 
   const handleFileInputChange = (
@@ -51,13 +51,12 @@ const FileUploadComponent: React.FC = () => {
     const files = event.target.files;
     if (files) {
       const fileArray = Array.from(files).map((file) => {
-        // Ensure progress is set to one of the allowed values for FileState
         const progress: "PENDING" | "UPLOADING" | "COMPLETE" | "ERROR" =
-          "PENDING"; // Example, assuming these are the allowed values
+          "PENDING";
         return {
           file,
           key: `${file.name}-${file.size}`,
-          progress, // Correctly typed according to FileState
+          progress,
         };
       });
       setFileStates((currentFiles) => [...currentFiles, ...fileArray]);
@@ -103,7 +102,7 @@ const FileUploadComponent: React.FC = () => {
         open: true,
         type: "success",
         message:
-          "File uploaded successfully! You will be redirected shortly. Please wait...",
+          "File uploaded! You will be redirected shortly. Please wait...",
       }),
     );
   };
@@ -210,14 +209,14 @@ const FileUploadComponent: React.FC = () => {
             ref={fileInputRef}
             className="hidden"
             onChange={handleFileInputChange}
-            multiple // Remove this if only single file upload is allowed
+            multiple
           />
           <LoadingButton
             onClick={
               fileStates.length > 0 ? handleUploadClick : handleFileInputClick
             }
             initialText="Upload file"
-            loadingText="Processing"
+            loadingText="Processing, this can take up to 30 seconds..."
           />
         </div>
       </div>

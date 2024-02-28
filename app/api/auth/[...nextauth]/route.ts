@@ -42,12 +42,12 @@ const handler = NextAuth({
           }
 
           let sanitizedInput = sanitize<{ username: string; password: string }>(
-            credentials
+            credentials,
           );
           sanitizedInput.username = credentials.username.toLowerCase();
 
           const user: UserDocument | null = await getUserByUsername(
-            sanitizedInput.username
+            sanitizedInput.username,
           );
 
           if (!user) {
@@ -56,7 +56,7 @@ const handler = NextAuth({
 
           const isPasswordMatch = await bcrypt.compare(
             credentials.password,
-            user.password
+            user.password,
           );
           if (!isPasswordMatch) {
             throw new Error("Invalid password");
@@ -69,7 +69,7 @@ const handler = NextAuth({
 
           if (!user.isVerified) {
             throw new Error(
-              "Your account has not been verified. Please activate your account."
+              "Your account has not been verified. Please activate your account.",
             );
           }
 
@@ -95,7 +95,7 @@ const handler = NextAuth({
   ],
   secret: process.env["NEXTAUTH_SECRET"],
   callbacks: {
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account }) {
       const customToken = token as CustomJWT;
 
       if (user && account) {
@@ -111,6 +111,8 @@ const handler = NextAuth({
         customToken.project = user.project;
         //@ts-ignore
         customToken.isAdmin = user.isAdmin;
+        //@ts-ignore
+        customToken.token = user.token;
       } else if (token && token.userId) {
         return token;
       }
@@ -124,6 +126,7 @@ const handler = NextAuth({
       session.user.didUpload = token.didUpload as boolean;
       session.user.project = token.project as boolean;
       session.user.isAdmin = token.isAdmin as boolean;
+      session.user.token = token.token as string;
 
       return session;
     },
@@ -136,7 +139,7 @@ const handler = NextAuth({
 export { handler as GET, handler as POST };
 
 async function getUserByUsername(
-  username: string
+  username: string,
 ): Promise<UserDocument | null> {
   try {
     // Query the database for a user with the given username
