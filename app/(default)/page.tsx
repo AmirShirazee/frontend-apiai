@@ -3,7 +3,7 @@ import Hero from "@/app/components/hero";
 import Features from "@/app/components/features";
 
 export const metadata = {
-  title: "Home - ApiAi",
+  title: "TestOpenAPI",
   description: "Automated Integration Testing for APIs",
 };
 
