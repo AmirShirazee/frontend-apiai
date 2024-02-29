@@ -1,19 +1,19 @@
-import sanitize from 'mongo-sanitize';
-import { NextRequest } from 'next/server';
-import parseJSON from '@/shared/utils/parseJSON';
-import { validateRegisterInput } from '@/shared/models/validations/user.validation';
-import UserService from '@/shared/services/user.service';
-import { generateToken } from '@/shared/utils/generateToken';
-import TokenService from '@/shared/services/token.service';
-import EmailService from '@/shared/services/email.service';
-import connectDB from '@/db/mongo';
+import sanitize from "mongo-sanitize";
+import { NextRequest } from "next/server";
+import parseJSON from "@/shared/utils/parseJSON";
+import { validateRegisterInput } from "@/shared/models/validations/user.validation";
+import UserService from "@/shared/services/user.service";
+import { generateToken } from "@/shared/utils/generateToken";
+import TokenService from "@/shared/services/token.service";
+import EmailService from "@/shared/services/email.service";
+import connectDB from "@/db/mongo";
 
 export async function POST(req: NextRequest) {
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return new Response(null, {
       status: 405,
       headers: {
-        Allow: 'POST',
+        Allow: "POST",
       },
     });
   }
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ message: error.details[0].message }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
   }
@@ -40,33 +40,40 @@ export async function POST(req: NextRequest) {
   }>(requestBody);
 
   try {
-    let user = await UserService.findUserBy('username', sanitizedInput.username.toLowerCase());
+    let user = await UserService.findUserBy(
+      "username",
+      sanitizedInput.username.toLowerCase(),
+    );
 
     if (user) {
       return new Response(
         JSON.stringify({
-          message: 'Username already taken. Please choose a different username',
+          message: "Username already taken. Please choose a different username",
         }),
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         },
       );
     }
 
-    user = await UserService.findUserBy('email', sanitizedInput.email.toLowerCase());
+    user = await UserService.findUserBy(
+      "email",
+      sanitizedInput.email.toLowerCase(),
+    );
 
     if (user) {
       return new Response(
         JSON.stringify({
-          message: 'Email is already registered. Please choose a different email',
+          message:
+            "Email is already registered. Please choose a different email",
         }),
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         },
       );
@@ -93,13 +100,13 @@ export async function POST(req: NextRequest) {
       return new Response(
         JSON.stringify({
           message:
-            'A verification email has been sent. Please verify your email by clicking on the link in the mail.',
+            "A verification email has been sent. Please check your spam folder if you do not see it in your inbox.",
           _id: newUser._id,
         }),
         {
           status: 200,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         },
       );
@@ -113,7 +120,7 @@ export async function POST(req: NextRequest) {
         {
           status: 503,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         },
       );
@@ -122,12 +129,12 @@ export async function POST(req: NextRequest) {
     console.error(error);
     return new Response(
       JSON.stringify({
-        message: 'An unexpected error occurred',
+        message: "An unexpected error occurred",
       }),
       {
         status: 500,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       },
     );
