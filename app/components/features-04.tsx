@@ -166,8 +166,8 @@ export default function Features04() {
                     </h4>
                   </div>
                   <p className="text-sm text-slate-400">
-                    Automatically generate Jest test cases for your API based on
-                    your OpenAPI Specification. This includes test scenarios for
+                    Automatically generate Jest test cases for your APIs based
+                    on your OpenAPI spec. This includes test scenarios for
                     status codes, path parameters, and query parameters.
                   </p>
                 </div>
