@@ -20,13 +20,14 @@ export default function DefaultLayout({
     });
   });
 
+  const isInMaintenanceMode =
+    process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
+
   return (
     <>
-      {/*<Header />*/}
-
+      {!isInMaintenanceMode && <Header />}
       <main className="grow">{children}</main>
-
-      {/*<Footer />*/}
+      <Footer />
     </>
   );
 }

@@ -216,7 +216,7 @@ export default function SignUp() {
             </Link>
           </div>
         </div>
-        {/* Divider */}
+        {/*Social login*/}
         {/*<div className="flex items-center my-6">*/}
         {/*  <div*/}
         {/*    className="border-t border-slate-800 grow mr-3"*/}
@@ -228,31 +228,56 @@ export default function SignUp() {
         {/*    aria-hidden="true"*/}
         {/*  />*/}
         {/*</div>*/}
-        {/*Social login*/}
+
         {/*<div className="flex space-x-3">*/}
         {/*  <button className="btn text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none h-9">*/}
         {/*    <span className="relative">*/}
         {/*      <span className="sr-only">Continue with Twitter</span>*/}
         {/*      <svg*/}
-        {/*        className="fill-current"*/}
+        {/*        className="w-8 h-8 fill-current"*/}
+        {/*        viewBox="0 0 32 32"*/}
         {/*        xmlns="http://www.w3.org/2000/svg"*/}
-        {/*        width="14"*/}
-        {/*        height="12"*/}
         {/*      >*/}
-        {/*        <path d="m4.34 0 2.995 3.836L10.801 0h2.103L8.311 5.084 13.714 12H9.482L6.169 7.806 2.375 12H.271l4.915-5.436L0 0h4.34Zm-.635 1.155H2.457l7.607 9.627h1.165L3.705 1.155Z" />*/}
+        {/*        <path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z" />*/}
+        {/*      </svg>*/}
+        {/*    </span>*/}
+        {/*  </button>*/}
+
+        {/*  <button className="btn text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none h-9">*/}
+        {/*    <span className="relative">*/}
+        {/*      <span className="sr-only">Continue with GitHub</span>*/}
+        {/*      <svg*/}
+        {/*        className="w-8 h-8 fill-current"*/}
+        {/*        viewBox="0 0 32 32"*/}
+        {/*        xmlns="http://www.w3.org/2000/svg"*/}
+        {/*      >*/}
+        {/*        <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />*/}
         {/*      </svg>*/}
         {/*    </span>*/}
         {/*  </button>*/}
         {/*  <button className="btn text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none h-9">*/}
         {/*    <span className="relative">*/}
-        {/*      <span className="sr-only">Continue with GitHub</span>*/}
+        {/*      <span className="sr-only">Continue with Facebook</span>*/}
         {/*      <svg*/}
-        {/*        className="fill-current"*/}
+        {/*        className="w-8 h-8 fill-current"*/}
+        {/*        viewBox="0 0 32 32"*/}
         {/*        xmlns="http://www.w3.org/2000/svg"*/}
-        {/*        width="16"*/}
-        {/*        height="15"*/}
         {/*      >*/}
-        {/*        <path d="M7.488 0C3.37 0 0 3.37 0 7.488c0 3.276 2.153 6.084 5.148 7.113.374.094.468-.187.468-.374v-1.31c-2.06.467-2.527-.936-2.527-.936-.375-.843-.843-1.124-.843-1.124-.655-.468.094-.468.094-.468.749.094 1.123.75 1.123.75.655 1.216 1.778.842 2.153.654.093-.468.28-.842.468-1.03-1.685-.186-3.37-.842-3.37-3.743 0-.843.281-1.498.75-1.966-.094-.187-.375-.936.093-1.965 0 0 .655-.187 2.059.749a6.035 6.035 0 0 1 1.872-.281c.655 0 1.31.093 1.872.28 1.404-.935 2.059-.748 2.059-.748.374 1.03.187 1.778.094 1.965.468.562.748 1.217.748 1.966 0 2.901-1.778 3.463-3.463 3.65.281.375.562.843.562 1.498v2.059c0 .187.093.468.561.374 2.996-1.03 5.148-3.837 5.148-7.113C14.976 3.37 11.606 0 7.488 0Z" />*/}
+        {/*        <path d="M14.023 24L14 17h-3v-3h3v-2c0-2.7 1.672-4 4.08-4 1.153 0 2.144.086 2.433.124v2.821h-1.67c-1.31 0-1.563.623-1.563 1.536V14H21l-1 3h-2.72v7h-3.257z" />*/}
+        {/*      </svg>*/}
+        {/*    </span>*/}
+        {/*  </button>*/}
+        {/*  <button className="btn text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none h-9">*/}
+        {/*    <span className="relative">*/}
+        {/*      <span className="sr-only">Continue with Instagram</span>*/}
+        {/*      <svg*/}
+        {/*        className="w-8 h-8 fill-current"*/}
+        {/*        viewBox="0 0 32 32"*/}
+        {/*        xmlns="http://www.w3.org/2000/svg"*/}
+        {/*      >*/}
+        {/*        <circle cx="20.145" cy="11.892" r="1" />*/}
+        {/*        <path d="M16 20c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4zm0-6c-1.103 0-2 .897-2 2s.897 2 2 2 2-.897 2-2-.897-2-2-2z" />*/}
+        {/*        <path d="M20 24h-8c-2.056 0-4-1.944-4-4v-8c0-2.056 1.944-4 4-4h8c2.056 0 4 1.944 4 4v8c0 2.056-1.944 4-4 4zm-8-14c-.935 0-2 1.065-2 2v8c0 .953 1.047 2 2 2h8c.935 0 2-1.065 2-2v-8c0-.935-1.065-2-2-2h-8z" />*/}
         {/*      </svg>*/}
         {/*    </span>*/}
         {/*  </button>*/}

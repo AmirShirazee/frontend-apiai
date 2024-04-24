@@ -1,7 +1,7 @@
 // next-auth.d.ts
-import { UserDocument } from '../../backend/models/user.model';
+import { UserDocument } from "../../backend/models/user.model";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   type User = UserDocument;
   interface Session {
     user: {
@@ -15,4 +15,9 @@ declare module 'next-auth' {
       isAdmin: boolean;
     };
   }
+}
+
+declare module "*.svg" {
+  const content: any;
+  export default content;
 }

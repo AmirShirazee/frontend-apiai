@@ -1,4 +1,7 @@
 import Maintenance from "@/app/components/Maintenance";
+import Hero from "@/app/components/hero";
+import Features04 from "@/app/components/features-04";
+import Features from "@/app/components/features";
 
 export const metadata = {
   title: "TestOpenAPI",
@@ -6,9 +9,15 @@ export const metadata = {
 };
 
 export default function MaintenancePage() {
-  return (
-    <>
-      <Maintenance />
-    </>
-  );
+  if (process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true") {
+    return <Maintenance />;
+  } else {
+    return (
+      <>
+        <Hero />
+        <Features04 />
+        <Features />
+      </>
+    );
+  }
 }

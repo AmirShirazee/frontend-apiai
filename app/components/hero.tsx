@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Particles from "./particles";
+//@ts-ignore
 import Illustration from "../../public/images/glow-bottom.svg";
 
 export default function Hero() {
