@@ -1,5 +1,5 @@
-import mongoose, { ConnectOptions } from 'mongoose';
-import colors from 'colors';
+import mongoose, { ConnectOptions } from "mongoose";
+import colors from "colors";
 
 // Extend the global type with mongoose custom properties
 declare global {
@@ -9,11 +9,14 @@ declare global {
   };
 }
 
-mongoose.set('strictQuery', true);
+mongoose.set("strictQuery", true);
 
-const connectionString = process.env.MONGO_URI;
+const connectionString =
+  process.env.NODE_ENV === "development"
+    ? process.env.MONGO_URI_LOCAL
+    : process.env.MONGO_URI;
 if (!connectionString) {
-  throw new Error('MongoDB connection string is not defined');
+  throw new Error("MongoDB connection string is not defined");
 }
 
 if (!global.mongoose) {
@@ -34,7 +37,9 @@ const connectDB = async () => {
     //@ts-ignore
     global.mongoose.conn = conn;
     global.mongoose.isConnected = true;
-    console.info(colors.green.underline(`MongoDB Connected: ${conn.connection.host}`));
+    console.info(
+      colors.green.underline(`MongoDB Connected: ${conn.connection.host}`),
+    );
     return conn;
   } catch (error: any) {
     console.error(colors.red.underline(`Error: ${error.message}`));

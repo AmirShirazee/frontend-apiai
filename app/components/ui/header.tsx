@@ -1,10 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useAppProvider } from '@/app/app-provider';
-import DropdownNotifications, { NotificationItem } from '../dropdown-notifications';
-import DropdownProfile from '../dropdown-profile';
-import getUser from '@/utils/getUser';
+import { useEffect, useState } from "react";
+import { useAppProvider } from "@/app/app-provider";
+import DropdownNotifications, {
+  NotificationItem,
+} from "../dropdown-notifications";
+import DropdownProfile from "../dropdown-profile";
+import getUser from "@/utils/getUser";
 
 export default function Header() {
   const { sidebarOpen, setSidebarOpen } = useAppProvider();
@@ -12,21 +14,20 @@ export default function Header() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   useEffect(() => {
-    // Create notifications based on userData
     if (!isLoading && !error && userData) {
       const newNotifications: NotificationItem[] = [];
 
       if (userData.data.didUpload) {
         newNotifications.push({
-          message: 'You can view your generated tests!',
+          message: "You can view your generated tests!",
           date: userData.data.uploadedAtDate,
-          link: '/dashboard/tests/view',
+          link: "/dashboard/tests/view",
         });
       } else {
         newNotifications.push({
-          message: 'Please upload a file to generate tests.',
+          message: "Please upload a file to generate tests.",
           date: new Date().toLocaleDateString(),
-          link: '/dashboard/openapi/upload',
+          link: "/dashboard/openapi/upload",
         });
       }
 
@@ -64,7 +65,10 @@ export default function Header() {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            <DropdownNotifications align="right" notifications={notifications} />
+            <DropdownNotifications
+              align="right"
+              notifications={notifications}
+            />
             {/*  Divider */}
             <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
             <DropdownProfile align="right" />

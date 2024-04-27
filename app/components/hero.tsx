@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Particles from "./particles";
 //@ts-ignore
 import Illustration from "../../public/images/glow-bottom.svg";
+import getUser from "@/utils/getUser";
+import { useEffect } from "react";
 
 export default function Hero() {
+  const { userData, isLoading, error } = getUser();
+
   return (
     <section>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -63,15 +69,27 @@ export default function Hero() {
               data-aos-delay="400"
             >
               <div>
-                <a
-                  className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group"
-                  href="/signup"
-                >
-                  Get started{" "}
-                  <span className="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">
-                    -&gt;
-                  </span>
-                </a>
+                {userData ? (
+                  <a
+                    className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group"
+                    href="/dashboard"
+                  >
+                    To dashboard{" "}
+                    <span className="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">
+                      -&gt;
+                    </span>
+                  </a>
+                ) : (
+                  <a
+                    className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group"
+                    href="/signup"
+                  >
+                    Get started{" "}
+                    <span className="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">
+                      -&gt;
+                    </span>
+                  </a>
+                )}
               </div>
             </div>
           </div>

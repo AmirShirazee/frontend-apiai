@@ -1,10 +1,12 @@
-import React from 'react';
-import { getServerSession } from 'next-auth';
-import Sidebar from '@/app/components/ui/sidebar';
-import Header from '@/app/components/ui/header';
+import React from "react";
+import Sidebar from "@/app/components/ui/sidebar";
+import Header from "@/app/components/ui/header";
 
-export default async function DefaultLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession();
+export default function DefaultLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex h-[100dvh] overflow-hidden">
       {/* Sidebar */}
