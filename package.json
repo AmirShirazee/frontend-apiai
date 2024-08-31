@@ -2,6 +2,7 @@
   "name": "apiai",
   "version": "0.1.0",
   "private": true,
+  "author": "Amir Ahmadi (AmirShirazee)",
   "scripts": {
     "dev": "next dev -p 8080",
     "build": "next build",
